@@ -1,0 +1,28 @@
+.post[b-1xwzvxki1x]{
+    border: 2px solid black;
+    margin-bottom: 10px;
+    max-width: 650px;
+}
+
+.legal[b-1xwzvxki1x]{
+    font-size: x-small;
+    margin-left: 10px;
+}
+
+.title[b-1xwzvxki1x]{
+    text-decoration: underline;
+    margin-left: 10px;
+}
+
+button[b-1xwzvxki1x]{
+    margin-bottom: 25px;
+}
+
+.clickable[b-1xwzvxki1x]{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.clickable:hover[b-1xwzvxki1x]{
+    background: lightblue;
+}

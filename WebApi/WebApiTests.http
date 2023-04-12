@@ -1,0 +1,15 @@
+// log in as Cedric
+//changed from https to http compared to tutorial?
+POST http://localhost:5197/auth/login
+Content-Type: application/json
+
+{ "Username" : "Cedric", "Password" : "testing123" }
+
+###
+
+GET http://localhost:5197/Test/authorized
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJmNmIzODE3Ni0xMTFmLTRlZTAtYjE1Ni1iOWE4YmMwNTNjNzkiLCJpYXQiOiIxMC8wNC8yMDIzIDEzLjU1LjUxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkNlZHJpYyIsIlNlY3VyaXR5TGV2ZWwiOiIzIiwiZXhwIjoxNjgxMTM4NTUxLCJpc3MiOiJKV1RBdXRoZW50aWNhdGlvblNlcnZlciIsImF1ZCI6IkpXVFNlcnZpY2VCbGF6b3JXYXNtQ2xpZW50In0.mwyUMrUDchcyEd5bcZEc3F9OmvMsuj_KOIry0DZSyu7HINw92z24LSlxQ1287ZanhZvpW4VWFxffyo2YxGW3Rw
+
+###
+
+GET http://localhost:5197/Test/allowanon

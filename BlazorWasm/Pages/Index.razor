@@ -1,0 +1,19 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<AuthorizeView>
+    <NotAuthorized>
+        <h1>Welcome to Saiddit!</h1>
+        <p class="legal">100% legally distinct from that other website</p>
+    </NotAuthorized>
+    <Authorized>
+        <p>Hey, @context.User.Identity.Name you are now logged in!</p>
+        @if (@context.User.Identity.Name.Equals("Cedric"))
+        {
+            <br/>
+            <p>p.s. You look mighty handsome might i add.</p>
+        }
+    </Authorized>
+</AuthorizeView>
+<img class="logo" src="img/Saiddit.png" alt="logout button"/>

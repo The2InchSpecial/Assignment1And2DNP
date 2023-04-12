@@ -1,0 +1,69 @@
+﻿@page "/Posts"
+@using global::Shared.Models
+@using HttpClients.ClientInterfaces
+@using System.Security.Claims
+@inject IPostService postService;
+@inject NavigationManager navMgr;
+<h3>Posts</h3>
+
+<div>
+    <button @onclick="LoadTodos">Load</button>
+</div>
+
+@if (posts == null)
+{
+}
+else if (!posts.Any())
+{
+    <p>No Todos to display</p>
+}
+else
+{
+    @foreach (var post in posts)
+        {
+            <div class="post">
+                <a @onclick=@(() => SeePost(@post.Id))><h3 class="clickable">@post.Title</h3></a>
+                <p class="legal">post by: @post.Owner</p>
+            </div>
+            <br/>
+        }
+}
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+    
+    private IEnumerable<Post>? posts;
+    private string msg = "";
+    private IEnumerable<Claim>? userClaims;
+    private bool isLoggedIn;
+
+    private async Task LoadTodos()
+    {
+        try
+        {
+            posts = await postService.GetAsync(null, null);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+    
+    private async void SeePost(int id)
+    {
+        AuthenticationState authState = await AuthState;
+        ClaimsPrincipal user = authState.User;
+        isLoggedIn = user.Identity != null;
+        
+        if (!isLoggedIn)
+            msg = $"Please login to see the post's content";
+        else 
+            navMgr.NavigateTo($"/SpecificPost/{id}");
+    }
+}

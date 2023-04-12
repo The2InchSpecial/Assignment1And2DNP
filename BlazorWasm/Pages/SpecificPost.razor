@@ -1,0 +1,49 @@
+﻿@page "/SpecificPost/{id:int}"
+@using HttpClients.ClientInterfaces
+@using global::Shared.Dtos
+@inject IPostService postService
+
+@if (post == null)
+{
+    <h3>Loading</h3>
+    <br/>
+    <span>fetching data..</span>
+}
+
+else
+{
+    <div class="post-card">
+        <h3>@post.Title</h3>
+        <br/>
+        <p>@post.Body</p>
+    </div>
+    <br/>
+    <p class="legal">posted by: @post.Owner</p>
+}
+
+@code {
+    
+    [Parameter] 
+    public int Id { get; set; }
+
+    private PostCreationDto post;
+    private string msg = "";
+    private string error = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        msg = "";
+        try
+        {
+            Console.WriteLine("about to fetch");
+            post = await postService.GetPostByIdAsync(Id);
+            Console.WriteLine("fetched the post!");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+    
+}
