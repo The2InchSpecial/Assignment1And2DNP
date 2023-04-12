@@ -7,7 +7,7 @@
 <h3>Posts</h3>
 
 <div>
-    <button @onclick="LoadTodos">Load</button>
+    <button @onclick="LoadPosts">Load</button>
 </div>
 
 @if (posts == null)
@@ -42,7 +42,7 @@ else
     private IEnumerable<Claim>? userClaims;
     private bool isLoggedIn;
 
-    private async Task LoadTodos()
+    private async Task LoadPosts()
     {
         try
         {
