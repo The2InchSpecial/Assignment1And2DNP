@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Application.DaoInterfaces;
+using Shared.Dtos;
 using Shared.Models;
 
 namespace WebApi.Services;
@@ -6,25 +8,18 @@ namespace WebApi.Services;
 public class AuthService : IAuthService
 {
 
-    private readonly IList<User> users = new List<User>
-    {
-        new User
-        {
-            Password = "testing123",
-            Username = "Cedric",
-        },
-        new User
-        {
-            Password = "testing123",
-            Username = "NotCedric",
-        }
-        
-    };
+    private readonly IUserDao users;
+    private readonly IPostDao posts;
 
-    public Task<User> ValidateUser(string username, string password)
+    public AuthService(IUserDao users, IPostDao posts)
     {
-        User? existingUser = users.FirstOrDefault(u => 
-            u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+        this.users = users;
+        this.posts = posts;
+    }
+    
+    public async Task<User> ValidateUser(string username, string password)
+    {
+        User? existingUser = await users.GetByUsernameAsync(username);
         
         if (existingUser == null)
         {
@@ -36,7 +31,7 @@ public class AuthService : IAuthService
             throw new Exception("Password mismatch");
         }
 
-        return Task.FromResult(existingUser);
+        return existingUser;
     }
 
     public Task<User> GetUser(string username, string password)
@@ -44,8 +39,17 @@ public class AuthService : IAuthService
         throw new NotImplementedException();
     }
 
-    public Task RegisterUser(User user)
+    public async Task<User> RegisterUser(UserCreationDto dto)
     {
+        User? existing = await users.GetByUsernameAsync(dto.UserName);
+        if (existing != null)
+            throw new Exception("Username already taken!");
+        
+        User user = new User
+        {
+            Username = dto.UserName,
+            Password = dto.Password,
+        };
 
         if (string.IsNullOrEmpty(user.Username))
         {
@@ -56,12 +60,9 @@ public class AuthService : IAuthService
         {
             throw new ValidationException("Password cannot be null");
         }
-        // Do more user info validation here
+
+        User created = await users.CreateAsync(user);
         
-        // save to persistence instead of list
-        
-        users.Add(user);
-        
-        return Task.CompletedTask;
+        return created;
     }
 }

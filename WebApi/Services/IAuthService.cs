@@ -1,10 +1,11 @@
-﻿using Shared.Models;
+﻿using Shared.Dtos;
+using Shared.Models;
 
 namespace WebApi.Services;
 
 public interface IAuthService
 {
     Task<User> GetUser(string username, string password);
-    Task RegisterUser(User user);
+    Task<User> RegisterUser(UserCreationDto dto);
     Task<User> ValidateUser(string username, string password);
 }
