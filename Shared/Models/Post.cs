@@ -2,9 +2,9 @@
 
 public class Post
 {
-    public string Title { get; set; }
-    public string Body { get; set; }
-    public string Owner { get; set; }
+    public string Title { get; private set; }
+    public string Body { get; private set; }
+    public string Owner { get; private set; }
     public int Id { get; set; }
 
     public Post(string title, string body, string owner)
@@ -13,4 +13,6 @@ public class Post
         Body = body;
         Owner = owner;
     }
+    
+    private Post(){}
 }

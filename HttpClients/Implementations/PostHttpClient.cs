@@ -57,7 +57,7 @@ public class PostHttpClient : IPostService
         {
             throw new Exception(content);
         }
-        
+        Console.WriteLine("got the content: " + content);
         PostCreationDto post = JsonSerializer.Deserialize<PostCreationDto>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
